@@ -1,0 +1,178 @@
+<div [ngClass]="active_view">
+    <div class="overlay">
+        <div class="content">
+            <!-- ====== left side content ====== -->
+            <div class="content-qoute">
+              <div class="qoute">
+                  <h1>Learn to code by <br> watching others</h1>
+                  <p>
+                    See how experienced developers solve problems in real-time. <br>
+                    Watching scripted tutorials is great, but understanding how <br> developer think is invaluable.
+                  </p>
+              </div>
+            </div>
+            <!-- ====== right side content ====== -->
+            <div class="content-form">
+              <div class="form-container">
+                <!-- ==== Free Trial Message ====  -->
+                <div class="trial-message">
+                  <span>
+                    Try it free 7 days
+                    <small>then $20/mo. thereafter</small>
+                  </span>
+                </div>
+                <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="register-form">
+                    <!-- === first name input === -->
+                  <div class="input-container">
+                    @if (userForm.get('first_name')?.invalid && (userForm.get('first_name')?.touched || userForm.get('first_name')?.dirty) || isFormSubmitted)
+                    {
+                        <img src="/images/icons/icon-error.svg">
+                    }
+                    <input 
+                    id="firstName"
+                    name="First Name" 
+                    formControlName="first_name" 
+                    type="text" 
+                    placeholder="First Name"
+                     [ngClass]="{ 'error-border': userForm.get('first_name')?.invalid && (userForm.get('first_name')?.touched || userForm.get('first_name')?.dirty)}"
+                    />
+                  </div>
+                  <!-- === first name input Validation messages === -->
+                  @if (userForm.get('first_name')?.invalid && (userForm.get('first_name')?.touched || userForm.get('first_name')?.dirty) )
+                    {
+                        @if(userForm.get('first_name')?.errors?.['required']) {
+                            <small>
+                                {{ getErrorMessage('first_name') }}
+                            </small>
+                        }  
+                    }
+                    <!-- === last name input === -->
+                  <div class="input-container">
+                    @if (userForm.get('last_name')?.invalid && (userForm.get('last_name')?.touched || userForm.get('last_name')?.dirty) || isFormSubmitted)
+                    {
+                        <img src="/images/icons/icon-error.svg">
+                    }
+                    <input 
+                    id="lastName" 
+                    formControlName="last_name" 
+                    type="text" 
+                    placeholder="Last Name" 
+                    [ngClass]="{ 'error-border': userForm.get('last_name')?.invalid && (userForm.get('last_name')?.touched || userForm.get('last_name')?.dirty) }"
+                    />
+                  </div>
+                  <!-- === last name input Validation messages === -->
+                    @if (userForm.get('last_name')?.invalid && (userForm.get('last_name')?.touched || userForm.get('last_name')?.dirty))
+                    {
+                        @if(userForm.get('last_name')?.errors?.['required']) {
+                            <small>
+                                {{ getErrorMessage('last_name') }}
+                            </small>
+                        }  
+                    }
+
+                    <!-- === email input === -->
+                  <div class="input-container">
+                    @if (userForm.get('email')?.invalid && (userForm.get('email')?.touched || userForm.get('email')?.dirty) || emailError || isFormSubmitted)
+                    {
+                        <img src="/images/icons/icon-error.svg">
+                    }
+                    <input 
+                    id="email" 
+                    formControlName="email" 
+                    (blur)="onEmailInput()" 
+                    type="email" 
+                    placeholder="Email Address" 
+                    [ngClass]="{ 'error-border': userForm.get('email')?.invalid && (userForm.get('email')?.touched || userForm.get('email')?.dirty) || emailError }"
+                    />
+                  </div>
+
+                  <!-- === email input Validation Messages === -->
+                    @if (userForm.get('email')?.invalid && (userForm.get('email')?.touched || userForm.get('email')?.dirty) || emailError)
+                    {
+                        @if(userForm.get('email')?.errors?.['required']) {
+                            <small>
+                                {{ getErrorMessage('email') }}
+                            </small>
+                        }
+                        @if(userForm.get('email')?.errors?.['email']) {
+                            <small>
+                                Looks like this is not an email
+                            </small>
+                        }
+                        @if(emailError) {
+                            <small>
+                                {{emailError}}
+                            </small>
+                        } 
+                    }
+                    
+                    <!-- === password input === -->
+                  <div class="input-container">
+                    @if (userForm.get('password')?.invalid && (userForm.get('password')?.touched || userForm.get('password')?.dirty)|| isFormSubmitted)
+                    {
+                        <img src="/images/icons/icon-error.svg">
+                    }
+                    <input 
+                    id="password" 
+                    formControlName="password"
+                    type="password" 
+                    placeholder="Password" 
+                    [ngClass]="{ 'error-border': userForm.get('password')?.invalid && (userForm.get('password')?.touched || userForm.get('password')?.dirty)}"
+                    />
+                  </div>
+                  <!-- === password Validations Messages === -->
+                  @if (userForm.get('password')?.invalid && (userForm.get('password')?.touched || userForm.get('password')?.dirty))
+                    {
+                        @if(userForm.get('password')?.errors?.['required']) {
+                            <small>
+                                {{ getErrorMessage('password') }}
+                            </small>
+                        }
+                        @if(userForm.get('password')?.errors?.['minlength']) {
+                            <small>
+                                password must be at least 6 characters
+                            </small>
+                        }
+            
+                    }
+                    <!-- === Confirm password input === -->
+                  <div class="input-container">
+                    @if (userForm.errors?.['passwordMismatch'] && (userForm.get('confirm_password')?.touched || userForm.get('confirm_password')?.dirty)|| isFormSubmitted)
+                    {
+                        <img src="/images/icons/icon-error.svg">
+                    }
+                    <input 
+                    id="confirm_password" 
+                    formControlName="confirm_password" 
+                    type="password" 
+                    placeholder="Confirm Password"
+                    [ngClass]="{ 'error-border': userForm.errors?.['passwordMismatch'] && (userForm.get('confirm_password')?.touched || userForm.get('confirm_password')?.dirty)}"
+                    />
+                  </div>
+                  <!-- === Confirm password validation messages === -->
+                  @if (userForm.errors?.['passwordMismatch'] && (userForm.get('confirm_password')?.touched || userForm.get('confirm_password')?.dirty))
+                    {
+                        @if(userForm.errors?.['passwordMismatch']) {
+                            <small>
+                                Passwords do not match.
+                            </small>
+                        }
+                    }
+                    <!-- === Form Submit button === -->
+                  <div class="action-btn">
+                    <button type="submit">claim your free trial</button>
+                  </div>
+                  <!-- === Nano Terms and Services === -->
+                  <div class="terms">
+                    <span>
+                      By clicking the button, you are agreeing to our
+                      <strong><a href="#">Terms</a> and <a href="#">Services</a></strong>
+                    </span>
+                  </div>
+                </form>
+                
+              </div>
+            </div>
+        </div>
+    </div>
+ </div>
