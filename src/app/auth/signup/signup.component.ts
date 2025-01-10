@@ -37,7 +37,7 @@ export class SignupComponent {
       { validators: passwordMatchValidator }
     );
   }
-
+  // Return an null if email is unique
   onEmailInput(): void {
     const email = this.userForm.get('email')?.value;
     this.authService.checkEmailUnique(email).subscribe((isUnique) => {
