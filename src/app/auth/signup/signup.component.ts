@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule,Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { passwordMatchValidator } from '../../shared/validators/password-match-validator';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-signup',
@@ -71,12 +72,13 @@ export class SignupComponent {
       //== send email value as string to push it in auth service in emails array ==
       this.authService.addEmail(email);
       // == confirm that registration completed by this alert
-      alert('Form submitted successfully!');
+      Swal.fire('Thank you...', 'You submitted succesfully!', 'success')
       // reset only form value 
       this.userForm.reset();
       this.isFormSubmitted = false;
     }else {
-      alert('Invalid data.');
+      Swal.fire('Error...', 'Invalid data.!', 'error')
+      // alert('Invalid data.');
       this.isFormSubmitted = false;
     }
   }
